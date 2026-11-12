@@ -1,0 +1,20 @@
+name: Orca global scan comment
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  orca:
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+    uses: CloverHealth/cph-github-workflows/.github/workflows/_orca_comment_scan.yaml@master
+    with:
+      orca_project_key: CloverHealth-query-exporter
+    secrets: inherit
+

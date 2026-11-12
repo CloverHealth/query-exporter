@@ -1,0 +1,27 @@
+name: Orca Scan
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: orca-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  source-scan:
+    name: Source Scan
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+    uses: CloverHealth/cph-github-workflows/.github/workflows/_orca_pipeline.yaml@master
+    with:
+      orca_project_key: CloverHealth-query-exporter
+    secrets: inherit
+

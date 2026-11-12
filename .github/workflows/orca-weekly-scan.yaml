@@ -1,0 +1,26 @@
+name: Weekly Orca Scan
+
+on:
+  schedule:
+    - cron: "0 18 * * 0"
+  workflow_dispatch:
+
+concurrency:
+  group: orca-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  orca:
+    name: Source Scan
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+    uses: CloverHealth/cph-github-workflows/.github/workflows/_orca_pipeline.yaml@master
+    with:
+      orca_project_key: CloverHealth-query-exporter
+    secrets: inherit
+
